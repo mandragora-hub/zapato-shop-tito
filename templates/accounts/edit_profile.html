@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- ========================= SECCIÓN DE CONTENIDO ========================= -->
+<section class="section-conten padding-y bg">
+    {% include 'includes/alerts.html' %} <!-- Incluir alertas -->
+
+    <div class="container">
+        <div class="row">
+          {% include 'includes/dashboard_sidebar.html' %} <!-- Incluir barra lateral del panel de control -->
+        <main class="col-md-9">
+            <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3"> Edita tu perfil de usuario:</strong>
+            </header>
+            <div class="card-body">
+                <div class="text-right">
+                  <img src="{{ userprofile.profile_picture.url }}" alt="Imagen de Perfil" width="100" style="border-radius:50px;"> <!-- Mostrar imagen de perfil del usuario -->
+                </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <form class="" action="{% url 'edit_profile' %}" method="post" enctype="multipart/form-data"> <!-- Formulario para editar el perfil del usuario -->
+                    {% csrf_token %} <!-- Token CSRF para protección -->
+
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="">Nombre(s)</label>
+                        {{ user_form.first_name }} <!-- Campo para el nombre del usuario -->
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="">Apellido(s)</label>
+                        {{ user_form.last_name }} <!-- Campo para el apellido del usuario -->
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="">Teléfono</label>
+                        {{ user_form.phone_number }} <!-- Campo para el teléfono del usuario -->
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="">Imagen de perfil</label>
+                        {{ profile_form.profile_picture }} <!-- Campo para la imagen de perfil del usuario -->
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="">Dirección</label>
+                        {{ profile_form.address_line_1 }} <!-- Campo para la dirección del usuario -->
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label for="">Detalles de dirección</label>
+                        {{ profile_form.address_line_2 }} <!-- Campo para detalles de la dirección del usuario -->
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label for="">País</label>
+                        {{ profile_form.country }} <!-- Campo para el país del usuario -->
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="">Ciudad</label>
+                        {{ profile_form.city }} <!-- Campo para la ciudad del usuario -->
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="">Estado</label>
+                        {{ profile_form.state }} <!-- Campo para el estado del usuario -->
+                      </div>
+                    </div>
+
+                    <input type="submit" name="Guardar" value="Guardar cambios" class="btn btn-primary"> <!-- Botón para enviar el formulario -->
+                </form>
+              </div>
+            </div>
+
+            </div> <!-- card-body .// -->
+
+            </article> <!-- order-group.// -->
+        </main>
+    </div> <!-- row.// -->
+    </div>
+
+</section>
+<!-- ========================= FIN DE SECCIÓN DE CONTENIDO ========================= -->
+
+{% endblock %}

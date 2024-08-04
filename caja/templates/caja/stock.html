@@ -1,0 +1,25 @@
+{% extends 'caja/base.html' %}
+
+{% block content %}
+<h1>Productos en Stock</h1>
+<form method="GET" action="{% url 'caja_stock' %}">
+    <input type="text" name="q" placeholder="Buscar producto..." value="{{ request.GET.q }}">
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+<div class="row mt-3">
+    {% for product in products %}
+    <div class="col-md-4">
+        <div class="card">
+            <div class="img-wrap">
+                <a href="{% url 'sell_product' product.id %}"><img src="{{ product.images.url }}" class="card-img-top" alt="{{ product.product_name }}"></a>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ product.product_name }}</h5>
+                <p class="card-text">Precio: {{ product.price }}</p>
+                <p class="card-text">Stock: {{ product.stock }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

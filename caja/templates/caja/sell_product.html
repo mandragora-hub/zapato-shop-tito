@@ -1,0 +1,13 @@
+{% extends 'caja/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Vender {{ product.product_name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Generar Factura</button>
+        <a href="{% url 'caja_index' %}" class="btn btn-secondary">Regresar</a>
+    </form>
+</div>
+{% endblock %}

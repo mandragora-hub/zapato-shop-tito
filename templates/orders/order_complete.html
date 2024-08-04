@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="margin-top: 50px;">
+    <center><i class="fas fa-check-circle" style="font-size: 72px;margin-bottom: 20px;color: #28A745;"></i></center>
+    <h2 class="text-center">El pago se realizó con éxito</h2>
+    <br>
+    <div class="text-center">
+        <a href="{% url 'store' %}" class="btn btn-success">Seguir comprando</a> <!-- Enlace para seguir comprando -->
+    </div>
+</div>
+
+<div class="container" style="margin: 0 auto;width: 50%;padding: 50px;background: #f1f1f1;margin-top: 50px;margin-bottom: 50px;">
+    <div class="row invoice row-printable">
+        <div class="col-md-12">
+            <!-- col-lg-12 inicio aquí -->
+            <div class="panel panel-default plain" id="dash_0">
+                <!-- Inicio del panel -->
+                <div class="panel-body p30">
+                    <div class="row">
+                        <!-- Inicio de la fila -->
+                        <div class="col-lg-6">
+                            <!-- col-lg-6 inicio aquí -->
+                            <div class="invoice-logo">
+                                <img src="{% static './images/bitito.png' %}" alt="Invoice logo" style="max-height: 40px;"> <!-- Logo de la factura -->
+                            </div>
+                        </div>
+                        <!-- col-lg-6 fin aquí -->
+                        <div class="col-lg-6">
+                            <!-- col-lg-6 inicio aquí -->
+                            <div class="invoice-from">
+                                <ul class="list-unstyled text-right">
+                                    <li><strong>Factura a nombre de:</strong></li>
+                                    <li>{{ order.full_name }}</li> <!-- Nombre completo del cliente -->
+                                    <li>{{ order.full_address }}</li> <!-- Dirección completa del cliente -->
+                                    <li>{{ order.city }}, {{ order.state }}</li> <!-- Ciudad y estado del cliente -->
+                                    <li>{{ order.country }}</li> <!-- País del cliente -->
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- col-lg-6 fin aquí -->
+                        <div class="col-lg-12">
+                            <!-- col-lg-12 inicio aquí -->
+                            <div class="invoice-details mt25">
+                                <div class="well">
+                                    <ul class="list-unstyled mb0">
+                                        <li><strong>Orden:</strong> #{{ order_number }}</li> <!-- Número de orden -->
+                                        <li><strong>Transacción:</strong> {{ transID }} </li> <!-- ID de transacción -->
+                                        <li><strong>Fecha de orden:</strong> {{ order.created_at}} </li> <!-- Fecha de la orden -->
+                                        <li><strong>Estatus:</strong> {{ payment.status }} </li> <!-- Estado del pago -->
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="invoice-items">
+                                <div class="table-responsive" style="overflow: hidden; outline: none;" tabindex="0">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="per70 text-center">Descripción</th>
+                                                <th class="per5 text-center">Cantidad</th>
+                                                <th class="per25 text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in ordered_products %}
+                                            <tr>
+                                                <td>
+                                                  {{ item.product.product_name }} <!-- Nombre del producto -->
+                                                  <p class="text-muted small">
+                                                    {% if item.variation.all %}
+                                                      {% for i in item.variation.all %}
+                                                        {{ i.variation_category | capfirst }} : {{ i.variation_value | capfirst }} <br> <!-- Variaciones del producto -->
+                                                      {% endfor %}
+                                                    {% endif %}
+                                                  </p>
+                                                </td>
+                                                <td class="text-center">{{ item.quantity }}</td> <!-- Cantidad del producto -->
+                                                <td class="text-center">{{ item.product_price }} USD</td> <!-- Precio del producto -->
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" class="text-right">Subtotal:</th>
+                                                <th class="text-center">${{ subtotal }} USD</th> <!-- Subtotal -->
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-right">Impuestos:</th>
+                                                <th class="text-center">${{ order.tax }} USD</th> <!-- Impuestos -->
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-right">Total:</th>
+                                                <th class="text-center">${{ order.order_total }} USD</th> <!-- Total -->
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="invoice-footer mt25">
+                                <p class="text-center">Gracias por comprar con nosotros</p> <!-- Mensaje de agradecimiento -->
+                            </div>
+                        </div>
+                        <!-- col-lg-12 fin aquí -->
+                    </div>
+                    <!-- Fin de la fila -->
+                </div>
+            </div>
+            <!-- Fin del panel -->
+        </div>
+        <!-- col-lg-12 fin aquí -->
+    </div>
+</div>
+
+{% endblock %}

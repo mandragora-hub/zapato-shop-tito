@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- ========================= SECCIÓN DE CONTENIDO ========================= -->
+<section class="section-conten padding-y" style="min-height:84vh">
+
+    {% if request.GET.command == 'verification' %}
+      <div class="container mx_auto alert alert-info" role="alert" style="max-width=380px; margin-top=100px;">
+        Gracias por registrarte en ByteShop, te hemos enviado un email para confirmar tu cuenta a [{{ request.GET.email }}]
+        <br>
+        <br>
+        Si ya verificaste tu cuenta puedes iniciar sesión: <a href="{% url 'login' %}">Entrar a mi cuenta</a> <!-- Enlace para iniciar sesión -->
+      </div>
+
+    {% else %}
+    <!-- ============================ COMPONENTE DE INICIO DE SESIÓN   ================================= -->
+        <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+          {% include 'includes/alerts.html' %} <!-- Incluir alertas -->
+          <div class="card-body">
+          <h4 class="card-title mb-4">Inicio de sesión</h4> <!-- Título del formulario -->
+          <form action="{% url 'login' %}" method="POST"> <!-- Formulario de inicio de sesión -->
+              {% csrf_token %} <!-- Token CSRF para protección -->
+
+              <div class="form-group">
+                 <input type="email" class="form-control" placeholder="Email" name="email" > <!-- Campo para el email -->
+              </div> <!-- form-group// -->
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" name="password"> <!-- Campo para la contraseña -->
+              </div> <!-- form-group// -->
+
+              <div class="form-group">
+                  <a href="{% url 'forgotPassword' %}" class="float-right">¿Olvidaste tu contraseña?</a> <!-- Enlace para recuperar la contraseña -->
+
+              </div> <!-- form-group form-check .// -->
+              <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block"> Entrar  </button> <!-- Botón para enviar el formulario -->
+              </div> <!-- form-group// -->
+          </form>
+          </div> <!-- card-body.// -->
+        </div> <!-- card .// -->
+
+         <p class="text-center mt-4">¿No tienes una cuenta? <a href="{% url 'register' %}">Registrate</a></p> <!-- Enlace para registrarse -->
+         <br><br>
+    <!-- ============================ COMPONENTE DE INICIO DE SESIÓN  FIN.// ================================= -->
+    {% endif %}
+
+</section>
+<!-- ========================= FIN DE SECCIÓN DE CONTENIDO ========================= -->
+
+{% endblock %}
