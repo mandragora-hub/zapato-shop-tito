@@ -187,14 +187,12 @@ def cart(request, total=0, quantity=0, cart_items=None):
     except ObjectDoesNotExist:
         pass
 
-    addButtonEnabled = False if cart_item.quantity < cart_item.product.stock else True   
     context = {
         'total': total,
         'quantity': quantity,
         'cart_items': cart_items,
         'tax': tax,
         'grand_total': grand_total,
-        'add_quantity_button_enabled': addButtonEnabled,
     }
 
 
